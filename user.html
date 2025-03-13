@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User View</title>
+
+    <link rel="stylesheet" href="user.css">
+
+
+
+</head>
+<body>
+    
+    <h1>Messages</h1>
+    
+    
+    <form action="contact_form.html">
+        <button class="button" type="submit">
+            <span>Register for updates</span>
+        </button>
+    </form>
+
+    <br><br><br><br>
+
+    <div id="messages"></div>
+
+
+   
+    <script>
+        function loadMessages() {
+            fetch('messages.php')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('messages').innerHTML = data.map(msg =>
+                        `
+                        
+                        <div class="card">
+                        <div class="container">
+                            <div class="left">
+                            <div class="status-ind"></div>
+                            </div>
+                            <div class="right">
+                            <div class="text-wrap">
+                                <p class="text-content">
+                                <strong class="text-link">${msg.content}</strong> 
+                                </p>
+                                <p class="time">${msg.created_at}</p>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                        `
+                    ).join('');
+                });
+        }
+        loadMessages();
+        setInterval(loadMessages, 5000); // Auto-refresh every 5 sec
+    </script>
+</body>
+</html>
